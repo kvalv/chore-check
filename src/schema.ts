@@ -151,29 +151,27 @@ export const permissions = definePermissions<AuthData, Schema>(schema, () => {
   return {
     user: {
       row: {
-        insert: NOBODY_CAN,
+        insert: ANYONE_CAN,
         update: {
-          preMutation: NOBODY_CAN,
+          preMutation: ANYONE_CAN,
         },
-        delete: NOBODY_CAN,
+        delete: ANYONE_CAN,
       },
     },
     location: {
       row: {
-        insert: NOBODY_CAN,
+        insert: ANYONE_CAN,
         update: {
-          preMutation: NOBODY_CAN,
+          preMutation: ANYONE_CAN,
         },
-        delete: NOBODY_CAN,
+        delete: ANYONE_CAN,
       },
     },
     task: {
       row: {
         insert: ANYONE_CAN,
         // only sender can edit their own messages
-        update: {
-          // preMutation: [allowIfMessageSender],
-        },
+        update: ANYONE_CAN,
         // must be logged in to delete
         delete: [allowIfLoggedIn],
       },
@@ -182,7 +180,7 @@ export const permissions = definePermissions<AuthData, Schema>(schema, () => {
       row: {
         insert: [policies.log.validCreatorID],
         update: {
-          preMutation: NOBODY_CAN,
+          preMutation: ANYONE_CAN,
         },
         delete: NOBODY_CAN,
       },

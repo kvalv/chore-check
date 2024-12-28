@@ -42,8 +42,8 @@ INSERT INTO "location" (id, name) VALUES ('loc1', 'Kitchen');
 INSERT INTO "location" (id, name) VALUES ('loc2', 'Living room');
 INSERT INTO "location" (id, name) VALUES ('loc3', 'Bathroom');
 
-INSERT INTO "task" (id, title, "responsibleID", "dueDate", "locationID") VALUES ('task1', 'Clean fridge', 'ycD76wW4R2', '2021-01-01', 'loc1');
-INSERT INTO "task" (id, title, "responsibleID", "dueDate", "locationID") VALUES ('task2', 'Wash windows', 'IoQSaxeVO5', '2021-01-02', 'loc2');
+INSERT INTO "task" (id, title, "intervalSeconds", "responsibleID", "dueDate", "locationID") VALUES ('task1', 'Clean fridge', 259200, 'ycD76wW4R2', '2021-01-01', 'loc1');
+INSERT INTO "task" (id, title, "intervalSeconds", "responsibleID", "dueDate", "locationID") VALUES ('task2', 'Wash windows', 1209600, 'IoQSaxeVO5', '2021-01-02', 'loc2');
 
 INSERT INTO "log" ("id", "taskID", "completedAt", "completedByID", "completionTimeMinutes", comment) VALUES ('log1', 'task1', '2021-01-01', 'ycD76wW4R2', 60, 'Fridge was very dirty');
 INSERT INTO "log" ("id", "taskID", "completedAt", "completedByID", "completionTimeMinutes", comment) VALUES ('log2', 'task2', '2021-01-02', 'IoQSaxeVO5', 30, 'Two windows were dirty, rest were fine');
