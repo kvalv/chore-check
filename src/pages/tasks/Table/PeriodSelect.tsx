@@ -28,7 +28,7 @@ const PeriodSelect: Component<Props> = (props) => {
       value={props.value ?? -1}
       onChange={(e) => handleSelect(parseInt(e.target.value))}
     >
-      <option disabled selected value="-1">
+      <option selected value="-1">
         All dates
       </option>
       <For each={choices}>

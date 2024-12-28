@@ -1,18 +1,22 @@
 import dayjs from "dayjs";
 import { ArrowCounterClockwise } from "phosphor-solid";
-import { Component, createMemo, createSignal, For } from "solid-js";
+import { Component, createMemo, createSignal, For, Show } from "solid-js";
 import toast from "solid-toast";
 import AreaSelect from "./AreaSelect";
 import PeriodSelect from "./PeriodSelect";
 import ResponsibleSelect from "./ResponsibleSelect";
 import { useZero } from "@/context";
 import { useQuery } from "@rocicorp/zero/solid";
-import { A } from "@solidjs/router";
 import { nanoid } from "nanoid";
+import TableDataDueDate from "./columns/TableDataDueDate";
+import TableDataTitle from "./columns/TableDataTitle";
+import { Task } from "@/schema";
 
-type Props = {};
+type Props = {
+  onComplete: (taskID: string) => void;
+};
 
-const Table: Component<Props> = () => {
+const Table: Component<Props> = (props) => {
   const z = useZero();
 
   const [filter, setFilter] = createSignal<{
@@ -37,7 +41,7 @@ const Table: Component<Props> = () => {
     let query = z.query.task
       .related("responsible")
       .related("location")
-      // .related("log", q => q.orderBy("", "desc"))
+      .related("log", (q) => q.orderBy("completedByID", "desc").limit(1))
       .orderBy("dueDate", "asc");
     if (filter().responsible != undefined) {
       query = query.where("responsibleID", "=", filter().responsible!);
@@ -52,19 +56,6 @@ const Table: Component<Props> = () => {
     return query;
   });
   const tasks = useQuery(query);
-
-  function onCompleteTask(taskID: string) {
-    const log = {
-      id: nanoid(10),
-      taskID,
-      completedAt: new Date().getTime(),
-      completedByID: z.userID,
-      completionTimeMinutes: 15,
-    };
-    z.mutate.log.insert(log);
-    console.log({ log });
-    toast.success("Task marked as completed ");
-  }
 
   return (
     <div>
@@ -95,7 +86,7 @@ const Table: Component<Props> = () => {
       </div>
 
       {/* the table */}
-      <div class="overflow-x-auto">
+      <div class="overflow-x-auto shadow-sm">
         <table class="table">
           <thead>
             <tr>
@@ -109,25 +100,16 @@ const Table: Component<Props> = () => {
             <For each={tasks()}>
               {(task) => (
                 <tr>
-                  <td>
-                    <div class="flex flex-col items-start ">
-                      <A href={`/tasks/${task.id}`}>{task.title}</A>
-                      <div
-                        class="tooltip max-w-[150px]"
-                        data-tip={task.description}
-                      >
-                        <p class="truncate text-xs text-gray-500">
-                          {task.description}
-                        </p>
-                      </div>
-                    </div>
-                  </td>
+                  <TableDataTitle {...task} />
                   <td>{task.responsible[0].name}</td>
-                  <td>{dayjs(task.dueDate).get("days")} days</td>
+                  <TableDataDueDate
+                    due={task.dueDate}
+                    last={task.log[0]?.completedAt}
+                  />
                   <td>
                     {/* a button to check of it's done */}
                     <button
-                      onClick={() => onCompleteTask(task.id)}
+                      onClick={() => props.onComplete(task.id)}
                       class="btn btn-outline btn-xs "
                     >
                       Complete

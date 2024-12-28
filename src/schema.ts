@@ -35,20 +35,20 @@ const locationSchema = createTableSchema({
   primaryKey: "id",
 });
 
-// // logschema is not yet defined, so we use a lazy version to set up
-// // relationship in taskSchema to log
-// const logSchemaType = createTableSchema({
-//   tableName: "log",
-//   columns: {
-//     id: "string",
-//     taskID: "string",
-//     completedAt: "number",
-//     completedByID: "string",
-//     completionTimeMinutes: "number",
-//     comment: { type: "string", optional: true },
-//   },
-//   primaryKey: "id",
-// });
+// logschema is not yet defined, so we use a lazy version to set up
+// relationship in taskSchema to log
+const logSchemaType = createTableSchema({
+  tableName: "log",
+  columns: {
+    id: "string",
+    taskID: "string",
+    completedAt: "number",
+    completedByID: "string",
+    completionTimeMinutes: "number",
+    comment: { type: "string", optional: true },
+  },
+  primaryKey: "id",
+});
 
 const lazyLogSchema = () => logSchema;
 
@@ -66,11 +66,11 @@ const taskSchema = createTableSchema({
   },
   primaryKey: "id",
   relationships: {
-    // log: {
-    //   destSchema: logSchemaType,
-    //   sourceField: "id",
-    //   destField: "taskID",
-    // },
+    log: {
+      destSchema: logSchemaType,
+      sourceField: "id",
+      destField: "taskID",
+    },
     responsible: {
       sourceField: "responsibleID",
       destSchema: userSchema,
