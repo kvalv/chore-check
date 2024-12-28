@@ -1,15 +1,11 @@
 import { Component, Show } from "solid-js";
 import { useQuery } from "@rocicorp/zero/solid";
 import Cookies from "js-cookie";
-import { Schema } from "@/schema";
-import { Zero } from "@rocicorp/zero";
 import Breadcrumbs from "./Breadcrumbs";
+import { useZero } from "@/context";
 
-type Props = {
-  z: Zero<Schema>;
-};
-
-const Header: Component<Props> = ({ z }) => {
+const Header: Component<{}> = () => {
+  const z = useZero();
   const login = async () => {
     await fetch("/api/login");
     location.reload();
@@ -23,7 +19,7 @@ const Header: Component<Props> = ({ z }) => {
 
   return (
     <div
-      class="bg-base-100 text-base-content sticky top-0 z-30 flex h-16 w-full bg-opacity-90 backdrop-blur transition-shadow duration-100 [transform:translate3d(0,0,0)] 
+      class="bg-base-200 text-base-content sticky top-0 z-30 flex h-16 w-full bg-opacity-80 backdrop-blur transition-shadow duration-100 [transform:translate3d(0,0,0)] 
   shadow-sm p-4 justify-between "
     >
       <Show when={loggedInUser()} fallback={<div></div>}>

@@ -10,6 +10,7 @@ import { ZeroProvider } from "./context.tsx";
 import { RouteSectionProps } from "@solidjs/router";
 import { BreadcrumbProvider } from "./contexts/Breadcrumb.tsx";
 import { Toaster } from "solid-toast";
+import Layout from "./Layout.tsx";
 const encodedJWT = Cookies.get("jwt");
 const decodedJWT = encodedJWT && decodeJwt(encodedJWT);
 const userID = decodedJWT?.sub ? (decodedJWT.sub as string) : "anon";
@@ -35,8 +36,7 @@ const App: Component<RouteSectionProps> = (props) => {
     <ZeroProvider z={z}>
       <BreadcrumbProvider>
         <Show when={initialSyncComplete()}>
-          <Header z={z} />
-          {props.children}
+          <Layout>{props.children}</Layout>
           <Toaster
             position="bottom-right"
             toastOptions={{
