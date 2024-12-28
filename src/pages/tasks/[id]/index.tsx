@@ -28,7 +28,9 @@ const TaskPage: Component<RouteSectionProps> = (props) => {
         fallback={
           <div role="alert" class="alert">
             <WarningCircle />
-            <span>{dayjs(task.dueDate).get("days")} days overdue</span>
+            <span>
+              {dayjs(task.dueDate).diff(dayjs(), "days")} days overdue
+            </span>
           </div>
         }
       >

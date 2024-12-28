@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { Component, Show } from "solid-js";
+import { Component, createMemo, Show } from "solid-js";
 
 type Props = {
   due: number;
@@ -7,10 +7,20 @@ type Props = {
 };
 
 const TableDataDueDate: Component<Props> = (props) => {
+  const dueDateString = createMemo(() => {
+    // less than 24h? write "today"
+    if (dayjs(props.due).diff(dayjs(), "days") < 1) {
+      return "Today";
+    }
+    let res = dayjs(props.due).fromNow();
+    // uppercase first letter; "in 3 days" -> "In 3 days"
+    return res.charAt(0).toUpperCase() + res.slice(1);
+  });
+
   return (
     <td>
       <div>
-        <p>{`In ${dayjs(props.due).get("days")} days`}</p>
+        <p class="capitalize">{dueDateString()}</p>
         <Show
           when={props.last != undefined}
           fallback={<p class="text-xs text-gray-500">Never done</p>}

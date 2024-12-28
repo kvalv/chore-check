@@ -13,33 +13,37 @@ type Props = {
 
 const CompletionModal: Component<Props> = (props) => {
   const z = useZero();
-
+  // we want to know the title, so we do a query to fetch the task
   const task = useQuery(() => z.query.task.where("id", "=", props.taskID));
 
+  const [completionTime, setCompletionTime] = createSignal(15);
+  const [comment, setComment] = createSignal<string | null>(null);
+
+  // this effect manages the lifecycle of our modal;
+  // when it gets closed, we want to reset the state.
   createEffect(() => {
     if (props.open) {
       modal?.showModal();
     } else {
       modal?.close();
+      // reset too
+      setCompletionTime(15);
+      setComment(null);
     }
   });
 
   let modal: HTMLDialogElement | undefined = undefined;
   let box: HTMLDivElement | undefined = undefined;
 
-  const [completionTime, setCompletionTime] = createSignal(15);
-  const [comment, setComment] = createSignal<string | null>(null);
-
   function handleSubmit() {
-    const log: Log = {
+    props.onSubmit({
       id: nanoid(10),
       taskID: props.taskID,
       completedAt: new Date().getTime(),
       completedByID: z.userID,
       completionTimeMinutes: completionTime(),
       comment: comment(),
-    };
-    props.onSubmit(log);
+    });
   }
 
   function closeIfClickOutsideModalBox(e: MouseEvent) {

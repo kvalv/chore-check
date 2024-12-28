@@ -1,16 +1,13 @@
 import dayjs from "dayjs";
 import { ArrowCounterClockwise } from "phosphor-solid";
-import { Component, createMemo, createSignal, For, Show } from "solid-js";
-import toast from "solid-toast";
+import { Component, createMemo, createSignal, For } from "solid-js";
 import AreaSelect from "./AreaSelect";
 import PeriodSelect from "./PeriodSelect";
 import ResponsibleSelect from "./ResponsibleSelect";
 import { useZero } from "@/context";
 import { useQuery } from "@rocicorp/zero/solid";
-import { nanoid } from "nanoid";
 import TableDataDueDate from "./columns/TableDataDueDate";
 import TableDataTitle from "./columns/TableDataTitle";
-import { Task } from "@/schema";
 
 type Props = {
   onComplete: (taskID: string) => void;
@@ -92,7 +89,7 @@ const Table: Component<Props> = (props) => {
             <tr>
               <th>Job</th>
               <th>Responsible</th>
-              <th>Next due date</th>
+              <th>Due</th>
               <th></th>
             </tr>
           </thead>
