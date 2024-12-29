@@ -21,7 +21,8 @@ const userSchema = createTableSchema({
   columns: {
     id: "string",
     name: "string",
-    partner: "boolean",
+    email: "string",
+    avatar: "string",
   },
   primaryKey: "id",
 });

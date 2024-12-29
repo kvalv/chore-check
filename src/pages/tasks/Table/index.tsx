@@ -90,7 +90,16 @@ const Table: Component<Props> = (props) => {
               {(task) => (
                 <tr>
                   <TableDataTitle {...task} />
-                  <td>{task.responsible[0].name}</td>
+                  <td>
+                    <div class="flex gap-2 items-center">
+                      <div class="avatar">
+                        <div class="w-[24px] rounded-full">
+                          <img src={task.responsible[0].avatar} />
+                        </div>
+                      </div>
+                      {task.responsible[0].name}
+                    </div>
+                  </td>
                   <TableDataDueDate
                     due={task.dueDate}
                     last={task.log[0]?.completedAt}

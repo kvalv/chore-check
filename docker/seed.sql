@@ -8,7 +8,9 @@ CREATE DATABASE zstart_solid_cdb;
 
 CREATE TABLE "user" (
   "id" VARCHAR PRIMARY KEY,
-  "name" text NOT NULL
+  "name" text NOT NULL,
+  "email" text NOT NULL,
+  "avatar" text NOT NULL
 );
 
 CREATE TABLE "location" (
@@ -35,15 +37,26 @@ CREATE TABLE "log" (
   "comment" text NULL
 );
 
-INSERT INTO "user" (id, name) VALUES ('ycD76wW4R2', 'Mikael');
-INSERT INTO "user" (id, name) VALUES ('IoQSaxeVO5', 'Hannah');
+INSERT INTO "user" (id, email, name, avatar) VALUES ('xxycD76wW4R2', 'mikael@email.com', 'Mikael', 'https://lh3.googleusercontent.com/a-/ALV-UjXxZNbl_kyOdzu4vuZ_CNJb6o6o0uOVbmLUgy83Z--WkisfEwhUQ58JkHwdudzfft6ii4IqPlvU4bp0YslIdP9Umey__iOCBu01eUSO4tVMlcOlCHZ_pxWpEmB7J1tnpQ5KhRtqyarM2Cng1nA-WpVUWDUwdhSncfHAsU5kmfalrn_FmNVJ7DAbgqqMiLJYUV_q-7Of01CWJhCn7NHoccv5u2f-h9AOi9VW0fhQN0TNI9DJmfGd68YeL6EScWYmmKVCcscsMkGp3XqwGu7aIrr8m1FoDUO-aK6I7HyLdIoF1OBEiKq6e1KArGhEf_jRqvfhnK15ucftWCsyx1UMd1XOnwEKzd4xY8eH2IKVEDorNpLczWJJa3lYTu-_kTpHuR1ZZSM0ltmQkqAcewdbZmKxHXWmKTuGup6ca7XmW3_j5yMY98USBfBSHR_zhhMTyv_yEp_J2WN6HxrCf83lBVuPhh8Iuv5hM6YulgNOkhYwEJGBfcbR05PY6E0xFbx95mqd1JbEOxg8l9LHggQlLlwF-SCKW0B-jXYs8FRmwjnU34JJIvuE4FyujFZCc2q_5B_9i2vmAq1nvkq68Zs-rttwHDv9qNJAvosNxNxB9smyJorB1GpAoHNNZwZWsKyy5jJfb-lddS2_kS6vFfCOhA2mK0fuP9slKR4z14NbYx7UeRsi7TTfbNeF05Z0Qsi1UU687SG_PA0m3IR1AmHz5JpM2cNdHfQRfGIOZr6SKeNN8opyUNdEHxBhp49-XOTNVyvl9UrPOU7FbWG8H7DqA6epHBRSvHWrS2I5ulySz-R0C60uOsAedIsLehDTMWA3x4kKJhoKtLTfO00Z3Z3p4nuhkhXFWFsMK8rt0gvDVKBTf1arBRSPWd7o2c43qGaHXlUtn0JnYvvBHOtTdeISotXYhkBxTwXUSLwZz0Mb_Ub3-sFv0Ur0SxjsMW5L6rGgb1ROZuxguAI8k0JKBcHJXgH50a0h=s96-c');
+INSERT INTO "user" (id, email, name, avatar) VALUES ('IoQSaxeVO5', 'hannah@email.com', 'Hannah', 'https://fastly.picsum.photos/id/237/200/300.jpg?hmac=TmmQSbShHz9CdQm0NkEjx1Dyh_Y984R9LpNrpvH2D_U');
 
 INSERT INTO "location" (id, name) VALUES ('loc1', 'Kitchen');
 INSERT INTO "location" (id, name) VALUES ('loc2', 'Living room');
 INSERT INTO "location" (id, name) VALUES ('loc3', 'Bathroom');
 
-INSERT INTO "task" (id, title, "intervalSeconds", "responsibleID", "dueDate", "locationID") VALUES ('task1', 'Clean fridge', 259200, 'ycD76wW4R2', '2021-01-01', 'loc1');
-INSERT INTO "task" (id, title, "intervalSeconds", "responsibleID", "dueDate", "locationID") VALUES ('task2', 'Wash windows', 1209600, 'IoQSaxeVO5', '2021-01-02', 'loc2');
+-- fHV3Qkdl1F
+INSERT INTO "task" (id, title, "intervalSeconds", "responsibleID", "dueDate", "locationID") VALUES ('fHV3Qkdl1F', 'Clean fridge', 259200, 'xxycD76wW4R2', now() + interval '1 day' , 'loc1');
+-- 2MENyJqrNY
+CREATE TABLE "log" (
+  "id" text PRIMARY KEY,
+  "taskID" text REFERENCES "task"(id),
+  "completedAt" TIMESTAMP NOT NULL,
+  "completedByID" VARCHAR REFERENCES "user"(id) NULL,
+  "completionTimeMinutes" INT NOT NULL,
+  "comment" text NULL
+);
 
-INSERT INTO "log" ("id", "taskID", "completedAt", "completedByID", "completionTimeMinutes", comment) VALUES ('log1', 'task1', '2021-01-01', 'ycD76wW4R2', 60, 'Fridge was very dirty');
-INSERT INTO "log" ("id", "taskID", "completedAt", "completedByID", "completionTimeMinutes", comment) VALUES ('log2', 'task2', '2021-01-02', 'IoQSaxeVO5', 30, 'Two windows were dirty, rest were fine');
+INSERT INTO "task" (id, title, "intervalSeconds", "responsibleID", "dueDate", "locationID") VALUES ('2MENyJqrNY', 'Wash windows', 1209600, 'IoQSaxeVO5',now() + interval '13 day', 'loc2');
+
+INSERT INTO "log" ("id", "taskID", "completedAt", "completedByID", "completionTimeMinutes", comment) VALUES ('log1', 'fHV3Qkdl1F', now() - interval '3 day', 'xxycD76wW4R2', 60, 'I ate everything in the fridge');
+INSERT INTO "log" ("id", "taskID", "completedAt", "completedByID", "completionTimeMinutes", comment) VALUES ('log2', '2MENyJqrNY', now() - interval '1 day', 'IoQSaxeVO5', 30, 'Two windows were dirty, rest were fine');
