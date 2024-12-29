@@ -23,19 +23,6 @@ const TaskPage: Component<RouteSectionProps> = (props) => {
       <Show when={task.description != null} fallback={<p>No description</p>}>
         <p>{task.description}</p>
       </Show>
-      <Show
-        when={dayjs(task.dueDate).isBefore(dayjs())}
-        fallback={
-          <div role="alert" class="alert">
-            <WarningCircle />
-            <span>
-              {dayjs(task.dueDate).diff(dayjs(), "days")} days overdue
-            </span>
-          </div>
-        }
-      >
-        <p>Next due date is {dayjs(task.dueDate).toNow()}</p>
-      </Show>
 
       <LogSection />
     </div>

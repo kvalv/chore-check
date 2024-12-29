@@ -36,7 +36,7 @@ const App: Component<RouteSectionProps> = (props) => {
     <ZeroProvider z={z}>
       <BreadcrumbProvider>
         <Show when={initialSyncComplete()}>
-          <Layout>{props.children}</Layout>
+          {props.children}
           <Toaster
             position="bottom-right"
             toastOptions={{

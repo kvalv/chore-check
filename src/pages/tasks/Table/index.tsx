@@ -83,7 +83,7 @@ const Table: Component<Props> = (props) => {
       </div>
 
       {/* the table */}
-      <div class="overflow-x-auto shadow-sm">
+      <div class="h-full shadow-sm">
         <table class="table">
           <thead>
             <tr>
