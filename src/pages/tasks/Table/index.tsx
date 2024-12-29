@@ -1,13 +1,14 @@
-import dayjs from "dayjs";
 import { ArrowCounterClockwise } from "phosphor-solid";
-import { Component, createMemo, createSignal, For } from "solid-js";
-import AreaSelect from "./AreaSelect";
+import { Component, createMemo, For } from "solid-js";
 import PeriodSelect from "./PeriodSelect";
+import { getTimePeriod, IntervalKey } from "@/lib/timePeriod";
 import ResponsibleSelect from "./ResponsibleSelect";
 import { useZero } from "@/context";
 import { useQuery } from "@rocicorp/zero/solid";
 import TableDataDueDate from "./columns/TableDataDueDate";
 import TableDataTitle from "./columns/TableDataTitle";
+import { createSearchParamSignal } from "@/lib/searchParamSignal";
+import { A } from "@solidjs/router";
 
 type Props = {
   onComplete: (taskID: string) => void;
@@ -16,22 +17,13 @@ type Props = {
 const Table: Component<Props> = (props) => {
   const z = useZero();
 
-  const [filter, setFilter] = createSignal<{
-    responsible: string | undefined;
-    withinDays: number | undefined;
-    area: string | undefined;
-  }>({
-    responsible: undefined,
-    withinDays: undefined,
-    area: undefined,
-  });
+  // filters
+  const [responsible, setResponsible] = createSearchParamSignal("r", "");
+  const [period, setPeriod] = createSearchParamSignal<IntervalKey>("p", "w");
 
   function resetFilters() {
-    setFilter({
-      responsible: undefined,
-      withinDays: undefined,
-      area: undefined,
-    });
+    setResponsible("");
+    setPeriod("w");
   }
 
   let query = createMemo(() => {
@@ -40,46 +32,46 @@ const Table: Component<Props> = (props) => {
       .related("location")
       .related("log", (q) => q.orderBy("completedByID", "desc").limit(1))
       .orderBy("dueDate", "asc");
-    if (filter().responsible != undefined) {
-      query = query.where("responsibleID", "=", filter().responsible!);
+    if (responsible() != "") {
+      query = query.where("responsibleID", "=", responsible()!);
     }
-    if (filter().withinDays != undefined) {
-      const due = dayjs().add(filter().withinDays!, "days").toDate().getTime();
-      query = query.where("dueDate", "<=", due);
-    }
-    if (filter().area != undefined) {
-      query = query.where("locationID", "=", filter().area!);
+    if (period() != undefined) {
+      const { start, end } = getTimePeriod(period());
+      query = query
+        .where("dueDate", ">=", start.valueOf())
+        .where("dueDate", "<=", end.valueOf());
     }
     return query;
   });
   const tasks = useQuery(query);
 
   return (
-    <div>
-      {/* filter section */}
-      <div class="flex justify-end items-center w-full shadow-sm">
-        <ResponsibleSelect
-          value={filter().responsible}
-          onChange={(responsible) => {
-            setFilter((filter) => ({ ...filter, responsible }));
-          }}
-        />
-        <AreaSelect
-          value={filter().area}
-          onChange={(area) => {
-            setFilter((filter) => ({ ...filter, area }));
-          }}
-        />
-        <PeriodSelect
-          value={filter().withinDays}
-          onChange={(withinDays) => {
-            setFilter((filter) => ({ ...filter, withinDays }));
-          }}
-        />
-        <button class="btn btn-xs btn-ghost " onClick={resetFilters}>
-          Reset
-          <ArrowCounterClockwise />
-        </button>
+    <div class="flex flex-col gap-4">
+      {/* header section */}
+      <div class="flex justify-between items-center">
+        <A href="./create">
+          <button class="btn btn-neutral ">Create</button>
+        </A>
+
+        {/* filter section */}
+        <div class="join">
+          <ResponsibleSelect
+            value={responsible()}
+            onChange={(responsible) => {
+              setResponsible(responsible ?? "");
+            }}
+          />
+          <PeriodSelect
+            value={period()}
+            onChange={(withinDays) => {
+              setPeriod(withinDays);
+            }}
+          />
+          <button class="btn rounded-r-full join-item" onClick={resetFilters}>
+            Reset
+            <ArrowCounterClockwise />
+          </button>
+        </div>
       </div>
 
       {/* the table */}

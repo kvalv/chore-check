@@ -22,11 +22,11 @@ const ResponsibleSelect: Component<Props> = (props) => {
 
   return (
     <select
-      class="select focus:outline-none select-ghost max-w-xs "
+      class="join-item select focus:outline-none select-bordered "
       onChange={(e) => handleSelect(e.currentTarget.value)}
-      value={props.value ?? "all"}
+      value={props.value ?? ""}
     >
-      <option value="all">Anyone</option>
+      <option value="">Anyone</option>
       <For each={choices()}>
         {(choice) => <option value={choice.id}>{choice.name}</option>}
       </For>

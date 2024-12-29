@@ -22,7 +22,7 @@ const AreaSelect: Component<Props> = (props) => {
 
   return (
     <select
-      class="select focus:outline-none select-ghost max-w-xs "
+      class="join-item select focus:outline-none select-bordered "
       onChange={(e) => handleSelect(e.currentTarget.value)}
       value={props.value ?? "all"}
     >

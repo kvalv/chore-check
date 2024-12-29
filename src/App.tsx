@@ -1,6 +1,5 @@
 import { useQuery } from "@rocicorp/zero/solid";
 import { Component, Show } from "solid-js";
-import Header from "@/components/Header";
 
 import { schema } from "./schema.ts";
 import { createZero } from "@rocicorp/zero/solid";
@@ -10,7 +9,6 @@ import { ZeroProvider } from "./context.tsx";
 import { RouteSectionProps } from "@solidjs/router";
 import { BreadcrumbProvider } from "./contexts/Breadcrumb.tsx";
 import { Toaster } from "solid-toast";
-import Layout from "./Layout.tsx";
 const encodedJWT = Cookies.get("jwt");
 const decodedJWT = encodedJWT && decodeJwt(encodedJWT);
 const userID = decodedJWT?.sub ? (decodedJWT.sub as string) : "anon";
