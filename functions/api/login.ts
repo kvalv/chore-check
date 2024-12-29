@@ -1,8 +1,6 @@
 import { SignJWT } from "jose";
 
-interface Env {
-  KV: KVNamespace;
-}
+interface Env {}
 
 const mikael = "ycD76wW4R2";
 
@@ -19,10 +17,11 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     iat: Math.floor(Date.now() / 1000),
   };
 
+  const key = context.env.ZERO_AUTH_SECRET;
   const jwt = await new SignJWT(jwtPayload)
     .setProtectedHeader({ alg: "HS256" })
     .setExpirationTime("30days")
-    .sign(new TextEncoder().encode(must(process.env.ZERO_AUTH_SECRET)));
+    .sign(new TextEncoder().encode(must(key)));
 
   return new Response("yay", {
     headers: {
