@@ -25,6 +25,7 @@
     "solid-toast": "^0.5.0"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241224.0",
     "@eslint/js": "^9.9.0",
     "@hono/node-server": "^1.13.2",
     "@tailwindcss/forms": "^0.5.9",
@@ -38,7 +39,7 @@
     "hono": "^4.6.6",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.5.3",
+    "typescript": "^5.7.2",
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1",
     "vite-plugin-solid": "^2.10.2"
