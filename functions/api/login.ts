@@ -1,4 +1,4 @@
-import { PagesFunction, Response } from "@cloudflare/workers-types";
+import { PagesFunction } from "@cloudflare/workers-types";
 import { SignJWT, decodeJwt } from "jose";
 import * as cookie from "cookie";
 
@@ -13,6 +13,7 @@ function must<T>(val: T) {
   return val;
 }
 
+// @ts-ignore
 export const onRequest: PagesFunction<Env> = async (context) => {
   const cookieHeader = context.request.headers.get("Cookie");
   if (!cookieHeader) {
