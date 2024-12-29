@@ -3,8 +3,6 @@ import { useQuery } from "@rocicorp/zero/solid";
 import { RouteSectionProps } from "@solidjs/router";
 import { Component, Show } from "solid-js";
 import LogSection from "./LogSection";
-import dayjs from "dayjs";
-import { WarningCircle } from "phosphor-solid";
 
 const TaskPage: Component<RouteSectionProps> = (props) => {
   const id = props.params.id;

@@ -24,6 +24,8 @@ const CreateTask: Component<Props> = (props) => {
       responsibleID: responsibleID(),
       dueDate: dueDate.getTime(),
       locationID: locationID(),
+      intervalSeconds: null,
+      description: null,
     };
     props.onCreate(task);
     // reset state

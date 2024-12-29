@@ -6,7 +6,7 @@ import { getTimePeriod } from "@/lib/timePeriod";
 
 type Props = {};
 
-const Home: Component<Props> = (props) => {
+const Home: Component<Props> = () => {
   return (
     <div class="stats shadow">
       <WorkLeftStatCard completed={4} total={12} />

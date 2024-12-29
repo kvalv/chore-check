@@ -50,7 +50,7 @@ const logSchemaType = createTableSchema({
   primaryKey: "id",
 });
 
-const lazyLogSchema = () => logSchema;
+// const lazyLogSchema = () => logSchema;
 
 // const taskSchema: TableSchema = createTableSchema({
 const taskSchema = createTableSchema({
@@ -142,6 +142,7 @@ const policies = {
   },
 };
 
+// @ts-ignore
 export const permissions = definePermissions<AuthData, Schema>(schema, () => {
   const allowIfLoggedIn = (
     authData: AuthData,
