@@ -1,8 +1,10 @@
+import { PagesFunction, Response } from "@cloudflare/workers-types";
 import { SignJWT, decodeJwt } from "jose";
+import * as cookie from "cookie";
 
-interface Env {}
-
-// const mikael = "ycD76wW4R2";
+interface Env {
+  ZERO_AUTH_SECRET: string;
+}
 
 function must<T>(val: T) {
   if (!val) {
@@ -12,18 +14,23 @@ function must<T>(val: T) {
 }
 
 export const onRequest: PagesFunction<Env> = async (context) => {
-  // read token from CF_Authorization
-
-  const cloudflareToken = context.request.headers.get("CF_Authorization");
-  if (!cloudflareToken) {
+  const cookieHeader = context.request.headers.get("Cookie");
+  if (!cookieHeader) {
     return new Response("Unauthorized", { status: 401 });
   }
+  const cookies = cookie.parse(cookieHeader);
 
-  const cfClaims = decodeJwt(cloudflareToken);
+  // todo: verify integrity of the CF_Authorization jwt
+  const cfJWT = cookies["CF_Authorization"];
+  if (!cfJWT) {
+    return new Response("header 'CF_Authorization' not found", { status: 401 });
+  }
+
+  const incomingClaims = decodeJwt(cfJWT);
 
   const jwtPayload = {
-    sub: cfClaims.sub,
-    email: cfClaims.email,
+    sub: incomingClaims.sub,
+    email: incomingClaims.email,
     iat: Math.floor(Date.now() / 1000),
   };
 
@@ -35,9 +42,10 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 
   return new Response("yay", {
     headers: {
-      "Set-Cookie": `jwt=${jwt}; Expires=${new Date(
-        Date.now() + 30 * 24 * 60 * 60 * 1000,
-      ).toUTCString()}; Path=/`,
+      "Set-Cookie": cookie.serialize("jwt", jwt, {
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        path: "/",
+      }),
     },
   });
 };
