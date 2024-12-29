@@ -1,8 +1,8 @@
-import { SignJWT } from "jose";
+import { SignJWT, decodeJwt } from "jose";
 
 interface Env {}
 
-const mikael = "ycD76wW4R2";
+// const mikael = "ycD76wW4R2";
 
 function must<T>(val: T) {
   if (!val) {
@@ -12,8 +12,18 @@ function must<T>(val: T) {
 }
 
 export const onRequest: PagesFunction<Env> = async (context) => {
+  // read token from CF_Authorization
+
+  const cloudflareToken = context.request.headers.get("CF_Authorization");
+  if (!cloudflareToken) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
+  const cfClaims = decodeJwt(cloudflareToken);
+
   const jwtPayload = {
-    sub: mikael,
+    sub: cfClaims.sub,
+    email: cfClaims.email,
     iat: Math.floor(Date.now() / 1000),
   };
 
