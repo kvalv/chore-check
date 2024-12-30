@@ -43,7 +43,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     console.log("user does not exist - creating");
     const res = await getIdentityTraits(
       context.env.CF_USER_IDENTITY_ENDPOINT,
-      cookieHeader,
+      `CF_Authorization=${cfJWT}`,
     );
     await repo.create({
       id: sub,
