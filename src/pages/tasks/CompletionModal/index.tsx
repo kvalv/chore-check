@@ -52,7 +52,7 @@ const CompletionModal: Component<Props> = (props) => {
 
   return (
     <dialog onClick={closeIfClickOutsideModalBox} ref={modal} class="modal">
-      <div class="modal-box" ref={box}>
+      <div class="max-lg:w-full modal-box" ref={box}>
         <h3 class="text-lg font-bold">{task()[0]?.title}</h3>
         {/* body */}
         <div class="flex flex-col pt-2 gap-2">
@@ -112,21 +112,22 @@ const TimeSpentRange: Component<TimeSpentProps> = (props) => {
   const steps = props.max / props.step;
 
   return (
-    <label class="form-control pr-[12px]">
+    <label class="form-control ">
       <div class="label">
         <span class="label-text">Estimated time spent</span>
       </div>
-      <input
-        type="range"
-        min={props.min}
-        max={props.max}
-        value={props.value}
-        onInput={(e) => props.onChange(parseInt(e.currentTarget.value))}
-        class="range range-xs"
-        step={props.step}
-      />
-      {/* hack: the width is a little bit more, so the labels look OK */}
-      <div class="flex w-[calc(100%+36px)] text-xs ">
+      <div class="px-4">
+        <input
+          type="range"
+          min={props.min}
+          max={props.max}
+          value={props.value}
+          onInput={(e) => props.onChange(parseInt(e.currentTarget.value))}
+          class="range range-xs"
+          step={props.step}
+        />
+      </div>
+      <div class="flex w-full font-mono  text-xs text-center">
         <Index each={Array.from({ length: steps + 1 })}>
           {(_, index) => <span class="flex-1 ">{index * props.step}m</span>}
         </Index>

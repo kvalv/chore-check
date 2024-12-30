@@ -1,5 +1,11 @@
-import { ArrowCounterClockwise } from "phosphor-solid";
-import { Component, createMemo, For } from "solid-js";
+import {
+  ArrowCounterClockwise,
+  Backspace,
+  DotsThreeCircleVertical,
+  DotsThreeVertical,
+  Plus,
+} from "phosphor-solid";
+import { Component, createMemo, For, Show } from "solid-js";
 import PeriodSelect from "./PeriodSelect";
 import { getTimePeriod, IntervalKey } from "@/lib/timePeriod";
 import ResponsibleSelect from "./ResponsibleSelect";
@@ -23,7 +29,7 @@ const Table: Component<Props> = (props) => {
 
   function resetFilters() {
     setResponsible("");
-    setPeriod("w");
+    setPeriod("all");
   }
 
   let query = createMemo(() => {
@@ -48,9 +54,12 @@ const Table: Component<Props> = (props) => {
   return (
     <div class="flex flex-col gap-4">
       {/* header section */}
-      <div class="flex justify-between items-center">
+      <div class="flex justify-between items-center  ">
         <A href="./create">
-          <button class="btn btn-neutral ">Create</button>
+          <button class="btn btn-primary btn-outline max-sm:btn-square">
+            <Plus />
+            <span class="max-sm:hidden">Create</span>
+          </button>
         </A>
 
         {/* filter section */}
@@ -67,9 +76,13 @@ const Table: Component<Props> = (props) => {
               setPeriod(withinDays);
             }}
           />
-          <button class="btn rounded-r-full join-item" onClick={resetFilters}>
-            Reset
+          <button
+            aria-label="Reset filters"
+            class="btn rounded-r-full join-item"
+            onClick={resetFilters}
+          >
             <ArrowCounterClockwise />
+            <span class="max-sm:hidden">Reset</span>
           </button>
         </div>
       </div>
