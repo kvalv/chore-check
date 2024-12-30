@@ -1,15 +1,15 @@
 import { Component } from "solid-js";
 
 type Props = {
-  url: string | undefined;
+  src: string | undefined;
   class?: string;
 };
 
 const Avatar: Component<Props> = (props) => {
   return (
-    <div class={`avatar ${props.class ?? ""}`}>
-      <div class="w-[24px] rounded-full">
-        <img src={props.url} />
+    <div class={`avatar w-[24px] ${props.class ?? ""}`}>
+      <div class={`rounded-full`}>
+        <img src={props.src} />
       </div>
     </div>
   );

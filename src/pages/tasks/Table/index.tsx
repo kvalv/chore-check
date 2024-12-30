@@ -50,7 +50,7 @@ const Table: Component<Props> = (props) => {
       {/* header section */}
       <div class="flex justify-between items-center  ">
         <A href="./create">
-          <button class="btn btn-primary btn-outline max-sm:btn-square">
+          <button class="btn btn-neutral max-sm:btn-square">
             <Plus />
             <span class="max-sm:hidden">Create</span>
           </button>
@@ -87,7 +87,6 @@ const Table: Component<Props> = (props) => {
           <thead>
             <tr>
               <th>Job</th>
-              <th>Responsible</th>
               <th>Due</th>
               <th></th>
             </tr>
@@ -96,17 +95,12 @@ const Table: Component<Props> = (props) => {
             <For each={tasks()}>
               {(task) => (
                 <tr>
-                  <TableDataTitle {...task} />
-                  <td>
-                    <div class="flex gap-2 items-center">
-                      <div class="avatar">
-                        <div class="w-[24px] rounded-full">
-                          <img src={task.responsible[0].avatar} />
-                        </div>
-                      </div>
-                      {task.responsible[0].name}
-                    </div>
-                  </td>
+                  <TableDataTitle
+                    id={task.id}
+                    title={task.title}
+                    responsible={task.responsible[0]}
+                    description={""}
+                  />
                   <TableDataDueDate
                     due={task.dueDate}
                     last={task.log[0]?.completedAt}

@@ -18,6 +18,9 @@ export default {
           ".btn": {
             "font-weight": "400",
           },
+          ".label-text": {
+            "@apply text-xs text-gray-600": {},
+          },
           ".select": {
             // outline-none
             outline: "2px solid transparent",

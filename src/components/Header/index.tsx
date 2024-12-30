@@ -22,7 +22,7 @@ const Header: Component<{}> = () => {
 
   return (
     <div
-      class="bg-base-200 text-base-content sticky top-0 z-30 flex w-full bg-opacity-80 backdrop-blur transition-shadow duration-100 [transform:translate3d(0,0,0)] 
+      class="bg-base-200 text-base-content sticky top-0 z-30 items-center flex w-full bg-opacity-80 backdrop-blur transition-shadow duration-100 [transform:translate3d(0,0,0)] 
   shadow-sm p-4 justify-between "
     >
       <Show when={loggedInUser()} fallback={<div></div>}>
@@ -30,7 +30,7 @@ const Header: Component<{}> = () => {
 
         <div class="dropdown dropdown-end">
           <div tabindex="0" role="button" class="btn m-1">
-            <Avatar url={loggedInUser()?.avatar} />
+            <Avatar src={loggedInUser()?.avatar} />
           </div>
           <ul
             tabindex="0"

@@ -11,7 +11,7 @@ type Props = {
   onSubmit: (log: Log) => void;
 };
 
-const CompletionModal: Component<Props> = (props) => {
+const CompleteTaskModal: Component<Props> = (props) => {
   const z = useZero();
   // we want to know the title, so we do a query to fetch the task
   const task = useQuery(() => z.query.task.where("id", "=", props.taskID));
@@ -53,9 +53,12 @@ const CompletionModal: Component<Props> = (props) => {
   return (
     <dialog onClick={closeIfClickOutsideModalBox} ref={modal} class="modal">
       <div class="max-lg:w-full modal-box" ref={box}>
-        <h3 class="text-lg font-bold">{task()[0]?.title}</h3>
+        <div>
+          <h3 class="text-lg font-bold">Complete task</h3>
+          <h3 class="text-sm text-gray-500 font-normal">{task()[0]?.title}</h3>
+        </div>
         {/* body */}
-        <div class="flex flex-col pt-2 gap-2">
+        <div class="flex flex-col pt-2 gap-3">
           <TimeSpentRange
             min={0}
             step={15}
@@ -67,7 +70,7 @@ const CompletionModal: Component<Props> = (props) => {
           {/* optional comment */}
           <label class="form-control">
             <div class="label">
-              <span class="label-text">Optional comment</span>
+              <span class="label-text">Comments (optional)</span>
             </div>
             <textarea
               class="textarea textarea-bordered h-24"
@@ -114,7 +117,7 @@ const TimeSpentRange: Component<TimeSpentProps> = (props) => {
   return (
     <label class="form-control ">
       <div class="label">
-        <span class="label-text">Estimated time spent</span>
+        <span class="label-text">Time spent (estimated)</span>
       </div>
       <div class="px-4">
         <input
@@ -136,4 +139,4 @@ const TimeSpentRange: Component<TimeSpentProps> = (props) => {
   );
 };
 
-export default CompletionModal;
+export default CompleteTaskModal;

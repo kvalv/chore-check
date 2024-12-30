@@ -1,7 +1,6 @@
-import { Component, createSignal, Show } from "solid-js";
-import { A } from "@solidjs/router";
+import { Component, createSignal } from "solid-js";
 import Table from "./Table";
-import CompletionModal from "./CompletionModal";
+import CompleteTaskModal from "./CompleteTaskModal";
 import { Log } from "@/schema";
 import toast from "solid-toast";
 import { useZero } from "@/context";
@@ -38,15 +37,8 @@ const Tasks: Component<Props> = () => {
 
   return (
     <div class="w-full pt-2">
-      {/*dont show the create for now...*/}
-      <Show when={false}>
-        <A href="/tasks/create">
-          <button class="btn btn-neutral btn-sm">Create new</button>
-        </A>
-      </Show>
-
       <Table onComplete={(id) => setTaskID(id)} />
-      <CompletionModal
+      <CompleteTaskModal
         onSubmit={onSubmitLog}
         open={Boolean(taskID())}
         taskID={taskID() ?? ""}

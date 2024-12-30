@@ -19,7 +19,7 @@ const TableDataDueDate: Component<Props> = (props) => {
 
   return (
     <td>
-      <div>
+      <div class="flex flex-col gap-1">
         <p class="capitalize">{dueDateString()}</p>
         <Show
           when={props.last != undefined}
