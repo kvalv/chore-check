@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import Breadcrumbs from "./Breadcrumbs";
 import { useZero } from "@/context";
 import { SignOut } from "phosphor-solid";
+import Avatar from "../Avatar";
 
 const Header: Component<{}> = () => {
   const z = useZero();
@@ -11,7 +12,8 @@ const Header: Component<{}> = () => {
     await fetch("/api/login");
     location.reload();
   };
-  const logout = async () => {
+  const logout = async (e: MouseEvent) => {
+    e.preventDefault();
     Cookies.remove("jwt");
     location.reload();
   };
@@ -25,13 +27,23 @@ const Header: Component<{}> = () => {
     >
       <Show when={loggedInUser()} fallback={<div></div>}>
         <Breadcrumbs />
-        <button
-          aria-label="Sign out"
-          class="btn btn-neutral btn-ghost btn-sm"
-          onClick={logout}
-        >
-          <SignOut />
-        </button>
+
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn m-1">
+            <Avatar url={loggedInUser()?.avatar} />
+          </div>
+          <ul
+            tabindex="0"
+            class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+          >
+            <li class="">
+              <a onClick={logout}>
+                <SignOut />
+                Log out
+              </a>
+            </li>
+          </ul>
+        </div>
       </Show>
       <Show when={!loggedInUser()}>
         <button onClick={login}>Log in</button>

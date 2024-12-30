@@ -10,11 +10,12 @@ export const app = new Hono().basePath("/api");
 
 // See seed.sql
 // In real life you would of course authenticate the user however you like.
-const mikael = "ycD76wW4R2";
+const mikael = "xxycD76wW4R2";
 
 app.get("/login", async (c) => {
   const jwtPayload = {
     sub: mikael,
+    email: "mikael@email.com",
     iat: Math.floor(Date.now() / 1000),
   };
 
