@@ -1,11 +1,5 @@
-import {
-  ArrowCounterClockwise,
-  Backspace,
-  DotsThreeCircleVertical,
-  DotsThreeVertical,
-  Plus,
-} from "phosphor-solid";
-import { Component, createMemo, For, Show } from "solid-js";
+import { ArrowCounterClockwise, Plus } from "phosphor-solid";
+import { Component, createMemo, For } from "solid-js";
 import PeriodSelect from "./PeriodSelect";
 import { getTimePeriod, IntervalKey } from "@/lib/timePeriod";
 import ResponsibleSelect from "./ResponsibleSelect";
