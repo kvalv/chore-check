@@ -15,7 +15,7 @@ const PeriodSelect: Component<Props> = (props) => {
 
   return (
     <select
-      class="join-item select focus:outline-none select-bordered "
+      class="join-item select w-[15ch] focus:outline-none select-bordered "
       value={props.value ?? "w"}
       onChange={(e) => handleSelect(e.target.value as IntervalKey)}
     >

@@ -22,7 +22,7 @@ const ResponsibleSelect: Component<Props> = (props) => {
 
   return (
     <select
-      class="join-item select focus:outline-none select-bordered "
+      class="join-item w-[15ch] select focus:outline-none select-bordered "
       onChange={(e) => handleSelect(e.currentTarget.value)}
       value={props.value ?? ""}
     >
