@@ -45,6 +45,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       context.env.CF_USER_IDENTITY_ENDPOINT,
       `CF_Authorization=${cfJWT}`,
     );
+    console.log(`identity endpoint: got response ${JSON.stringify(res)}`);
     await repo.create({
       id: sub,
       name: res.name,

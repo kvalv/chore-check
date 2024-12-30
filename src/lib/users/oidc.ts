@@ -25,6 +25,7 @@ export async function getIdentityTraits(
     throw new Error("Expected CF_Authorization cookie");
   }
   const res = await fetch(identityEndpoint, { headers: { cookie } });
+  console.log(`identity endpoint: inner - got response ${JSON.stringify(res)}`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch identity traits");
