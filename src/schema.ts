@@ -133,8 +133,16 @@ type AuthData = {
 };
 
 const policies = {
+  task: {
+    isResponsible: (
+      auth: AuthData,
+      { cmp }: ExpressionBuilder<typeof taskSchema>,
+    ) => {
+      return cmp("responsibleID", "=", auth.sub ?? "todo");
+    },
+  },
   log: {
-    validCreatorID: (
+    isCreator: (
       auth: AuthData,
       { cmp }: ExpressionBuilder<typeof logSchema>,
     ) => {
@@ -145,7 +153,8 @@ const policies = {
 
 // @ts-ignore
 export const permissions = definePermissions<AuthData, Schema>(schema, () => {
-  const allowIfLoggedIn = (
+  // @ts-ignore
+  const authenticated = (
     authData: AuthData,
     { cmpLit }: ExpressionBuilder<TableSchema>,
   ) => cmpLit(authData.sub, "IS NOT", null);
@@ -173,17 +182,15 @@ export const permissions = definePermissions<AuthData, Schema>(schema, () => {
       row: {
         insert: ANYONE_CAN,
         // only sender can edit their own messages
-        update: ANYONE_CAN,
+        update: [policies.task.isResponsible],
         // must be logged in to delete
-        delete: [allowIfLoggedIn],
+        delete: [policies.task.isResponsible],
       },
     },
     log: {
       row: {
-        insert: [policies.log.validCreatorID],
-        update: {
-          preMutation: ANYONE_CAN,
-        },
+        insert: ANYONE_CAN,
+        update: NOBODY_CAN,
         delete: NOBODY_CAN,
       },
     },

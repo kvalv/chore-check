@@ -15,7 +15,7 @@ const CreateTask: Component<Props> = (props) => {
   const [title, setTitle] = createSignal("");
   const [responsibleID, setResponsibleID] = createSignal(z.userID);
   const [description, setDescription] = createSignal("");
-  const [interval, setInterval] = createSignal(timeIntervals["w"].seconds);
+  const [interval, setInterval] = createSignal(timeIntervals["w"].minutes);
   const [locationID, setLocationID] = createSignal(
     props.locations[0]?.id ?? "",
   );
@@ -40,7 +40,7 @@ const CreateTask: Component<Props> = (props) => {
     setResponsibleID(z.userID);
     setLocationID(props.locations[0]?.id ?? "");
     setDescription("");
-    setInterval(timeIntervals["w"].seconds);
+    setInterval(timeIntervals["w"].minutes);
   }
 
   return (
@@ -94,7 +94,7 @@ const CreateTask: Component<Props> = (props) => {
         >
           <For each={Object.values(timeIntervals)}>
             {(interval) => (
-              <option value={interval.seconds}>{interval.label}</option>
+              <option value={interval.minutes}>{interval.label}</option>
             )}
           </For>
         </select>
