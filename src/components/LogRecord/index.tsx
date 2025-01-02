@@ -10,12 +10,12 @@ type Props = {
 };
 
 const LogRecord: Component<Props> = (props) => {
-  const [open, setOpen] = createSignal(true);
+  const [open, setOpen] = createSignal(false);
 
   return (
     <div class="flex flex-col w-full rounded-md px-2">
       <div class="flex items-center justify-between">
-        <div class="flex gap-1 items-center text-xs text-gray-500">
+        <div class="flex gap-1 items-center text-xs ">
           <CalendarBlank class="w-[16px] mr-1" />
           {dayjs(props.log.completedAt).format("MMM DD, YYYY")}
         </div>
